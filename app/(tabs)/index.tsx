@@ -1,17 +1,22 @@
 import { Image } from 'expo-image';
-import {Platform, StyleSheet, View, Text, ScrollView} from 'react-native';
+import {Platform, StyleSheet, View, Text, ScrollView, Pressable} from 'react-native';
 
-
+import AntDesign from '@expo/vector-icons/AntDesign';
 import {Link, Stack} from 'expo-router';
 import Colors from "@/Colors";
 import {SafeAreaView} from "react-native-safe-area-context";
 import SearchBar from "@/components/SearchBar";
+import DatePicker from '@react-native-community/datetimepicker';
+import {useState} from "react";
 
 export default function HomeScreen() {
     const getPercentageStyle = (value: string) => ({
         color: value.startsWith("-") ? "red" : "green",
     });
-  return (
+    const [myDate, setMyDate] = useState(new Date());
+    const [show, setShow] = useState(false);
+
+    return (
       <>
           <Stack.Screen options={{ headerShown: false }} />
           <SafeAreaView style={[styles.container]} edges={['top']}>
@@ -21,10 +26,33 @@ export default function HomeScreen() {
                       <Text className=" mt-safe-or-12  mx-auto text-white text-3xl font-bold">Stock Price</Text>
 
                       <View className="mt-5">
-                          <SearchBar
-                              placeholder="Search a Stock"
-                              onSubmit={() => {}}
-                          />
+                          <View style={styles.top_title}>
+
+                              <View style={styles.searchContainer}>
+                                  <SearchBar
+                                      placeholder="Search a Stock"
+                                      onSubmit={() => {}}
+                                  />
+                              </View>
+
+                              <View className="ml-4">
+                                  <Pressable onPress={() => setShow(true)}>
+                                      <AntDesign name="calendar" size={24} color="white" />
+                                  </Pressable>
+
+                                  {show && (
+                                      <DatePicker
+                                          value={myDate}
+                                          mode="date"
+                                          display={Platform.OS === "ios" ? "spinner" : "default"}
+                                          onChange={(event, selectedDate) => {
+                                              setShow(false);
+                                              if (selectedDate) setMyDate(selectedDate);
+                                          }}
+                                      />
+                                  )}
+                              </View>
+                          </View>
 
                           <View>
                               <View style={styles.title}>
@@ -41,7 +69,7 @@ export default function HomeScreen() {
                                           <Text className="text-white text-3xl font-bold ">
                                               565.23
                                           </Text>
-                                          <Text className="text-gray-600 text-xl font-bold ml-2 ">
+                                          <Text className="text-gray-600 text-sm font-bold ml-2 ">
                                               USD
                                           </Text>
                                       </View>
@@ -55,7 +83,6 @@ export default function HomeScreen() {
                                   <Text style={[styles.percentage, getPercentageStyle("-812.32")]}>-812.32</Text>
                                   <Text style={[styles.percentage2, getPercentageStyle("-40%")]}>-40%</Text>
                                   <Text style={[styles.percentage2, getPercentageStyle("-40%")]}>past 4 years</Text>
-
                               </View>
                           </View>
                       </View>
@@ -80,6 +107,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
     },
+    top_title: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
     price: {
         flexDirection: "row",
         marginRight: 8,
@@ -102,6 +133,9 @@ const styles = StyleSheet.create({
     },
     percentage3: {
        marginTop: 7,
-    }
+    },
+    searchContainer: {
+        width: "86%",
+    },
 
 })
