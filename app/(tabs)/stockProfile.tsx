@@ -94,9 +94,9 @@ export default function StockProfile() {
                             {stockData.name}
                         </Text>
                         <View style={styles.sym}>
-                            <Text className="text-gray-400 text-md mt-3">{stockData.ticker}</Text>
-                            <Text className="text-gray-400 text-md mt-3 mx-1">/</Text>
-                            <Text className="text-gray-400 text-md mt-3 uppercase">{stockData.locale}</Text>
+                            <Text className="text-gray-500 text-md mt-3">{stockData.ticker}</Text>
+                            <Text className="text-gray-500 text-md mt-3 mx-1">/</Text>
+                            <Text className="text-gray-500 text-md mt-3 uppercase">{stockData.locale}</Text>
                         </View>
                         <View style={[styles.section]}>
                             <Text className="text-white text-xl font-bold">
