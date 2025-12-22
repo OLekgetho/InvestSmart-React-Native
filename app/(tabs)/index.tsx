@@ -10,6 +10,18 @@ import DatePicker from '@react-native-community/datetimepicker';
 import {useState} from "react";
 import axios from "axios";
 
+type dataType = {
+    symbol: string;
+    displayName: string;
+    shortName: string;
+    regularMarketPrice: number;
+    regularMarketPreviousClose: number;
+    regularMarketChange: number;
+    regularMarketChangePercent: number;
+    fiveYrDate: string;
+    fiveYrPercentage: number;
+    fiveYrDiff: number;
+};
 
 
 export default function HomeScreen() {
@@ -33,8 +45,7 @@ export default function HomeScreen() {
         try {
             const formattedDate = date.toISOString().split("T")[0];
 
-            const res = await axios.get(
-                `${BASE_URL}/stock/${symbol}/${formattedDate}`
+            const res = await axios.get<dataType>(`${BASE_URL}/stock/info/${symbol}`
             );
 
             setStockPrice(res.data);
@@ -96,10 +107,10 @@ export default function HomeScreen() {
                                       {/*    AAPL*/}
                                       {/*</Text>*/}
                                       <Text className="text-white text-4xl mt-7 font-bold">
-                                          {stockPrices.currDay[0].symbol}
+                                          {stockPrices.symbol}
                                       </Text>
                                       <Text className="text-gray-500 text-xl font-bold">
-                                          Apple Inc.
+                                          {stockPrices.shortName}
                                       </Text>
                                   </View>
                                   <View className="mt-7">
@@ -108,7 +119,7 @@ export default function HomeScreen() {
                                           {/*    565.23*/}
                                           {/*</Text>*/}
                                           <Text className="text-white text-3xl font-bold ">
-                                              {stockPrices.currDay[0].close}
+                                              {stockPrices.regularMarketPrice.toFixed(2)}
                                           </Text>
                                           <Text className="text-gray-600 text-sm font-bold ml-2 ">
                                               USD
@@ -117,18 +128,18 @@ export default function HomeScreen() {
                                       <View style={styles.title_percentage}>
                                         {/*<Text style={[styles.percentage, getPercentageStyle("+0.10")]}>+21.30</Text>*/}
                                         {/*<Text style={[styles.percentage2, getPercentageStyle("+0.10")]}>+0.10%</Text>*/}
-                                        <Text style={[styles.percentage, getPercentageStyle(stockPrices.stockChange[0].amountChange)]}>
-                                            {stockPrices.stockChange[0].amountChange.toFixed(2)}</Text>
-                                        <Text style={[styles.percentage2, getPercentageStyle(stockPrices.stockChange[0].percentChange)]}>
-                                            {stockPrices.stockChange[0].percentChange.toFixed(2)}%</Text>
+                                        <Text style={[styles.percentage, getPercentageStyle(stockPrices.regularMarketChange)]}>
+                                            {stockPrices.regularMarketChange.toFixed(2)}</Text>
+                                        <Text style={[styles.percentage2, getPercentageStyle(stockPrices.regularMarketChangePercent)]}>
+                                            {stockPrices.regularMarketChangePercent.toFixed(2)}%</Text>
                                       </View>
                                   </View>
                               </View>
-                              {/*<View style={[styles.title_percentage,styles.percentage3]}>*/}
-                              {/*    <Text style={[styles.percentage, getPercentageStyle("-812.32")]}>-812.32</Text>*/}
-                              {/*    <Text style={[styles.percentage2, getPercentageStyle("-40%")]}>-40%</Text>*/}
-                              {/*    <Text style={[styles.percentage2, getPercentageStyle("-40%")]}>past 4 years</Text>*/}
-                              {/*</View>*/}
+                              <View style={[styles.title_percentage,styles.percentage3]}>
+                                  <Text style={[styles.percentage, getPercentageStyle(stockPrices.fiveYrDiff)]}>{stockPrices.fiveYrDiff.toFixed(2)}</Text>
+                                  <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>{stockPrices.fiveYrPercentage.toFixed(2)}%</Text>
+                                  <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>change since {stockPrices.fiveYrDate}</Text>
+                              </View>
                           </View>
                           )}
                       </View>
