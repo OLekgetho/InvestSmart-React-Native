@@ -32,7 +32,8 @@ export default function HomeScreen() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const BASE_URL = "http://192.168.1.105:8085/api";
+    // const BASE_URL = "http://192.168.1.105:8085/api";
+    const BASE_URL = "http://10.145.2.220:8085/api";
 
     const formatDate = (date: Date) =>
         date.toISOString().split("T")[0];
@@ -139,6 +140,9 @@ export default function HomeScreen() {
                                   <Text style={[styles.percentage, getPercentageStyle(stockPrices.fiveYrDiff)]}>{stockPrices.fiveYrDiff.toFixed(2)}</Text>
                                   <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>{stockPrices.fiveYrPercentage.toFixed(2)}%</Text>
                                   <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>change since {stockPrices.fiveYrDate}</Text>
+                              </View>
+                              <View>
+                                  <Text className="text-white text-2xl mt-7 font-bold">Chart</Text>
                               </View>
                           </View>
                           )}
