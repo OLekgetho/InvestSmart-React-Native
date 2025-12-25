@@ -9,6 +9,7 @@ import SearchBar from "@/components/SearchBar";
 import DatePicker from '@react-native-community/datetimepicker';
 import {useState} from "react";
 import axios from "axios";
+import News from "@/components/News";
 
 type dataType = {
     symbol: string;
@@ -141,8 +142,9 @@ export default function HomeScreen() {
                                   <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>{stockPrices.fiveYrPercentage.toFixed(2)}%</Text>
                                   <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>change since {stockPrices.fiveYrDate}</Text>
                               </View>
-                              <View>
-                                  <Text className="text-white text-2xl mt-7 font-bold">Chart</Text>
+                              <View className="mt-5">
+                                  <Text className="text-white text-2xl mt-4 font-medium"> News </Text>
+                                  <News symbol={stockPrices.symbol} />
                               </View>
                           </View>
                           )}
