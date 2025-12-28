@@ -1,76 +1,121 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import {View, Text, FlatList, ActivityIndicator, StyleSheet, ScrollView} from "react-native";
 import axios from "axios";
+import Colors from "@/Colors";
 
-type ResultsFinance = {
-    label: string;
-    value: number;
-    unit: string;
+interface CashFlowStatementProps {
+    symbol: string; // passed from parent.tsx
+}
+
+type CashFlowStatementResponse = {
+    [date: string]: {
+        [metric: string]: number | string;
+    };
 };
-
-export type CashFlowStatementItem = {
-    key: string;
-    label: string;
-    value: number;
-    unit: string;
-};
-
 
 type Props = {
-    cashFlowStatement: Record<string, { label: string; value: number; unit: string }>;
+    balanceSheet: Record<string, { label: string; value: number; unit: string }>;
 };
 
-export default function CashFlowStatement({ cashFlowStatement }: Props) {
-    if (!cashFlowStatement) return <Text style={{ color: "white" }}>No Cash Flow Statement Data</Text>;
-    const data: CashFlowStatementItem[] = Object.entries(cashFlowStatement).map(
-        ([key, item]) => ({
-            key,
-            label: item.label,
-            value: item.value,
-            unit: item.unit,
-        })
-    );
+export default function IncomeStatement({ symbol }: CashFlowStatementProps) {
+    const [data, setData] = useState<CashFlowStatementResponse>({});
+    const [loading, setLoading] = useState(true);
+
+    const formatValue = (value: number | string | undefined) => {
+        if (value === undefined || value === null) return "-";
+
+        if (typeof value === "number") {
+            return value.toLocaleString("en-US");
+        }
+
+        if (value === "---") {
+            return "-";
+        }
+
+        return value;
+    };
+
+
+    useEffect(() => {
+        fetch(
+            `http://10.145.2.220:8085/api/stock/info/profile/cash/${symbol}`
+        )
+            .then((res) => res.json())
+            .then((json) => setData(json))
+            .catch(console.error)
+            .finally(() => setLoading(false));
+    }, [symbol]);
+
+    if (loading) {
+        return <ActivityIndicator size="large" />;
+    }
+
+    const dates = Object.keys(data); // top headers
+    // const metrics = Array.from(
+    //     new Set(
+    //         dates.flatMap((date) => Object.keys(data[date]))
+    //     )
+    // );
+    const metrics = Array.from(
+        new Set(
+            dates.flatMap((date) => Object.keys(data[date]))
+        )
+    ).sort((a, b) => a.localeCompare(b));
+
+
     return (
         <View>
-            <Text className="text-white text-2xl font-light border-b border-b-white">Cash Flow Statement</Text>
-            {data.map((item) => (
-                <View key={item.key} style={styles.row}>
-                    <Text style={styles.label}>{item.label}</Text>
-                    <Text style={styles.value}>{formatCurrency(item.value, item.unit)}</Text>
+            <Text className="text-white text-2xl font-light border-b">CashFlow Statement</Text>
+            <ScrollView horizontal>
+                <View>
+                    <View style={styles.row}>
+                        <View style={styles.metricCell} />
+                        {dates.map((date) => (
+                            <View key={date} style={styles.headerCell}>
+                                <Text style={styles.headerText}>
+                                    {date.substring(0, 10)}
+                                </Text>
+                            </View>
+                        ))}
+                    </View>
+                    <ScrollView>
+                        {metrics.map((metric) => (
+                            <View key={metric} style={styles.row}>
+                                <View style={styles.metricCell}>
+                                    <Text style={styles.metricText}>{metric}</Text>
+                                </View>
+
+                                {dates.map((date) => (
+                                    <View key={date} style={styles.dataCell}>
+                                        <Text style={styles.dataText}>
+                                            {formatValue(data[date][metric])}
+                                        </Text>
+
+                                    </View>
+                                ))}
+                            </View>
+                        ))}
+                    </ScrollView>
                 </View>
-            ))}
+            </ScrollView>
         </View>
 
     );
 }
 
-const formatCurrency = (value: number, unit?: string) => {
-    if (!unit || unit.length !== 3) {
-        // Fallback: just show a plain number
-        return value.toLocaleString("en-US");
-    }
+const formatCurrency = (value: number, unit: string) =>
+    new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: unit,
+        maximumFractionDigits: 0,
+    }).format(value);
 
-    try {
-        return new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: unit,
-            maximumFractionDigits: 0,
-        }).format(value);
-    } catch (err) {
-        console.warn("Invalid currency code", unit, err);
-        return value.toLocaleString("en-US");
-    }
-};
 
 
 const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 16,
-        alignItems: "center",
-        borderBottomWidth: 1,           // bottom border
-        borderBottomColor: "rgba(255,255,255,0.05)",
+
     },
     label: {
         fontSize: 16,
@@ -85,5 +130,40 @@ const styles = StyleSheet.create({
         color: "#eae7e7",
         width: "35%",
         textAlign: "right",
+    },
+    metricCell: {
+        width: 170,
+        padding: 7,
+        backgroundColor: Colors.grey,
+        borderRightWidth: 1,
+        borderColor: "#505050",
+        borderBottomWidth: 1,
+    },
+    headerCell: {
+        width: 140,
+        padding: 8,
+        backgroundColor: Colors.grey,
+        alignItems: "center",
+    },
+    headerText: {
+        fontWeight: "bold",
+        color: "#ffffff"
+    },
+    metricText: {
+        fontWeight: "600",
+        color: "#ffffff"
+    },
+    dataCell: {
+        width: 140,
+        padding: 8,
+        alignItems: "center",
+        borderRightWidth: 1,
+        borderColor: "#505050",
+        borderBottomWidth: 1,
+    },
+    dataText: {
+        fontSize: 14,
+        color: "#ffffff",
+
     },
 });

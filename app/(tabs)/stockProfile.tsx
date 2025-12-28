@@ -120,13 +120,13 @@ export default function StockProfile() {
                     </View>
                     <View style={{ marginTop: 30 }}>
                         {active === 0 && financials && (
-                            <BalanceSheets balanceSheet={financials.balance_sheet} />
+                            <BalanceSheets symbol={stockData.symbol} />
                         )}
                         {active === 1 && financials && (
-                            <IncomeStatement incomeStatement={financials.income_statement} />
+                            <IncomeStatement symbol={stockData.symbol} />
                         )}
                         {active === 2 && financials && (
-                            <CashFlowStatement cashFlowStatement={financials.cash_flow_statement} />
+                            <CashFlowStatement symbol={stockData.symbol} />
                         )}
 
                     </View>
