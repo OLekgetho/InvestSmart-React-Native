@@ -16,15 +16,17 @@ import CashFlowStatement from "@/components/CashFlowStatement";
 import BalanceSheets from "@/components/BalanceSheets";
 
 type dataType = {
-    ticker: string;
-    name: string;
-    currency_name: string;
-    locale: string;
-    market: string;
-    phone_number: string;
-    market_cap: string;
-    total_employees: string;
-    share_class_shares_outstanding: string;
+    symbol: string;
+    shortName: string;
+    currency: string;
+    country: string;
+    marketState: string;
+    phone: string;
+    website: string;
+    marketCap: string;
+    fullTimeEmployees: string;
+    trailingPE: string;
+    forwardPE: string;
 };
 
 export default function StockProfile() {
@@ -35,6 +37,8 @@ export default function StockProfile() {
 
     // const BASE_URL = "http://192.168.1.105:8085/api";
     const BASE_URL = "http://10.145.2.220:8085/api";
+    // const BASE_URL = "http://10.90.255.220:8085/api";
+
 
 
     const buttons = [
@@ -55,7 +59,7 @@ export default function StockProfile() {
 
         try {
             const [profileRes, financeRes] = await Promise.all([
-                axios.get<dataType>(`${BASE_URL}/profile/${symbol}`),
+                axios.get<dataType>(`${BASE_URL}/stock/info/profile/${symbol}`),
                 axios.get(`${BASE_URL}/profile/finance/${symbol}`)
             ]);
 
@@ -93,12 +97,12 @@ export default function StockProfile() {
                     <View>
 
                         <Text className="text-white text-3xl mt-7 font-bold">
-                            {stockData.name}
+                            {stockData.shortName}
                         </Text>
                         <View style={styles.sym}>
-                            <Text className="text-gray-500 text-md mt-3">{stockData.ticker}</Text>
+                            <Text className="text-gray-500 text-md mt-3">{stockData.symbol}</Text>
                             <Text className="text-gray-500 text-md mt-3 mx-1">/</Text>
-                            <Text className="text-gray-500 text-md mt-3 uppercase">{stockData.locale}</Text>
+                            <Text className="text-gray-500 text-md mt-3 uppercase">{stockData.country}</Text>
                         </View>
                         <View style={[styles.section]}>
                             <Text className="text-white text-xl font-bold">
