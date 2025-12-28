@@ -34,6 +34,7 @@ export default function HomeScreen() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     // const BASE_URL = "http://192.168.1.105:8085/api";
+    // const BASE_URL = "http://10.90.255.220:8085/api";
     const BASE_URL = "http://10.145.2.220:8085/api";
 
     const formatDate = (date: Date) =>
