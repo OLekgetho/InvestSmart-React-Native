@@ -1,15 +1,17 @@
-import {View, Text, StyleSheet, ScrollView} from "react-native";
+import {View, Text, StyleSheet, ScrollView, Linking, TouchableOpacity} from "react-native";
 import Colors from "@/Colors";
 import {useState} from "react";
 import axios from "axios";
 
 type AnalysisProps = {
     stockData: {
-        market: string;
-        phone_number: string;
-        market_cap: string;
-        total_employees: string;
-        share_class_shares_outstanding: string;
+        website: string;
+        phone: string;
+        marketCap: string;
+        fullTimeEmployees: string;
+        trailingPE: string;
+        forwardPE: string;
+        marketState: string;
     } | null;
 };
 
@@ -36,39 +38,57 @@ const Analysis = ({ stockData }: AnalysisProps) => {
                 <View style={styles.cardWrapper}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
                     <View style={styles.block}>
-                        <Text style={styles.title}>Market</Text>
+                        <TouchableOpacity
+                            onPress={() => Linking.openURL(stockData?.website)}
+                        >
+                            <Text style={styles.title}>Website</Text>
+                            <View style={styles.number} >
+                                {/*<Text style={styles.price}>{stockData.website}</Text>*/}
+                                {/*<Text style={styles.price}>384 217 213</Text>*/}
+                                {/*<Text style={[styles.percentage, getPercentageStyle("-15")]}>-15%</Text>*/}
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.block}>
+                        <Text style={styles.title}>Market State</Text>
                         <View style={styles.number} >
-                            <Text style={styles.price1}>{stockData.market}</Text>
+                            <Text style={styles.price1}>{stockData.marketState}</Text>
                             {/*<Text style={styles.price1}>Stock</Text>*/}
                         </View>
                     </View>
                     <View style={styles.block}>
                         <Text style={styles.title}>Market Cap</Text>
                         <View style={styles.number} >
-                            <Text style={styles.price}>{formatNumber(stockData.market_cap)}</Text>
+                            <Text style={styles.price}>{formatNumber(stockData.marketCap)}</Text>
                             {/*<Text style={styles.price}>2 343 232 431</Text>*/}
                             {/*<Text style={[styles.percentage, getPercentageStyle("+20")]}>+20%</Text>*/}
                         </View>
                     </View>
                     <View style={styles.block}>
-                        <Text style={styles.title}>Outstanding Shares</Text>
-                        <View style={styles.number} >
-                            <Text style={styles.price}>{formatNumber(stockData.share_class_shares_outstanding)}</Text>
-                            {/*<Text style={styles.price}>384 217 213</Text>*/}
-                            {/*<Text style={[styles.percentage, getPercentageStyle("-15")]}>-15%</Text>*/}
-                        </View>
-                    </View>
-                    <View style={styles.block}>
                         <Text style={styles.title}>Phone Number</Text>
                         <View style={styles.number} >
-                            <Text style={styles.price}>{stockData.phone_number}</Text>
+                            <Text style={styles.price}>{stockData.phone}</Text>
                             {/*<Text style={styles.price}>033 423 1234</Text>*/}
                         </View>
                     </View>
                     <View style={styles.block}>
                         <Text style={styles.title}>Total Employees</Text>
                         <View style={styles.number} >
-                            <Text style={styles.price}>{formatNumber(stockData.total_employees)}</Text>
+                            <Text style={styles.price}>{formatNumber(stockData.fullTimeEmployees)}</Text>
+                            {/*<Text style={styles.price}>144 533</Text>*/}
+                        </View>
+                    </View>
+                    <View style={styles.block}>
+                        <Text style={styles.title}>Trailing PE</Text>
+                        <View style={styles.number} >
+                            <Text style={styles.price}>{formatNumber(stockData.trailingPE)}</Text>
+                            {/*<Text style={styles.price}>144 533</Text>*/}
+                        </View>
+                    </View>
+                    <View style={styles.block}>
+                        <Text style={styles.title}>Forward PE</Text>
+                        <View style={styles.number} >
+                            <Text style={styles.price}>{formatNumber(stockData.forwardPE)}</Text>
                             {/*<Text style={styles.price}>144 533</Text>*/}
                         </View>
                     </View>
