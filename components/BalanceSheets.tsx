@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
+import {View, Text, FlatList, ActivityIndicator, StyleSheet, ScrollView} from "react-native";
 import axios from "axios";
+import Colors from "@/Colors";
 
 type ResultsFinance = {
     label: string;
@@ -15,30 +16,101 @@ export type BalanceSheetItem = {
     unit: string;
 };
 
+interface BalanceSheetProps {
+    symbol: string; // passed from parent.tsx
+}
+
+type BalanceSheetResponse = {
+    [date: string]: {
+        [metric: string]: number | string;
+    };
+};
 
 type Props = {
     balanceSheet: Record<string, { label: string; value: number; unit: string }>;
 };
 
-export default function BalanceSheets({ balanceSheet }: Props) {
-    if (!balanceSheet) return <Text style={{ color: "white" }}>No Balance Sheet Data</Text>;
-    const data: BalanceSheetItem[] = Object.entries(balanceSheet).map(
-        ([key, item]) => ({
-            key,
-            label: item.label,
-            value: item.value,
-            unit: item.unit,
-        })
-    );
+export default function BalanceSheet({ symbol }: BalanceSheetProps) {
+    const [data, setData] = useState<BalanceSheetResponse>({});
+    const [loading, setLoading] = useState(true);
+
+    const formatValue = (value: number | string | undefined) => {
+        if (value === undefined || value === null) return "-";
+
+        if (typeof value === "number") {
+            return value.toLocaleString("en-US");
+        }
+
+        if (value === "---") {
+            return "-";
+        }
+
+        return value;
+    };
+
+
+    useEffect(() => {
+        fetch(
+            `http://10.145.2.220:8085/api/stock/info/profile/balance/${symbol}`
+        )
+            .then((res) => res.json())
+            .then((json) => setData(json))
+            .catch(console.error)
+            .finally(() => setLoading(false));
+    }, [symbol]);
+
+    if (loading) {
+        return <ActivityIndicator size="large" />;
+    }
+
+    const dates = Object.keys(data); // top headers
+    // const metrics = Array.from(
+    //     new Set(
+    //         dates.flatMap((date) => Object.keys(data[date]))
+    //     )
+    // );
+
+    const metrics = Array.from(
+        new Set(
+            dates.flatMap((date) => Object.keys(data[date]))
+        )
+    ).sort((a, b) => a.localeCompare(b));
+
     return (
         <View>
-            <Text className="text-white text-2xl font-light border-b border-b-white">Balance Sheet</Text>
-            {data.map((item) => (
-                <View key={item.key} style={styles.row}>
-                    <Text style={styles.label}>{item.label}</Text>
-                    <Text style={styles.value}>{formatCurrency(item.value, item.unit)}</Text>
+            <Text className="text-white text-2xl font-light border-b">Balance Sheet</Text>
+            <ScrollView horizontal>
+                <View>
+                    <View style={styles.row}>
+                        <View style={styles.metricCell} />
+                        {dates.map((date) => (
+                            <View key={date} style={styles.headerCell}>
+                                <Text style={styles.headerText}>
+                                    {date.substring(0, 10)}
+                                </Text>
+                            </View>
+                        ))}
+                    </View>
+                    <ScrollView>
+                        {metrics.map((metric) => (
+                            <View key={metric} style={styles.row}>
+                                <View style={styles.metricCell}>
+                                    <Text style={styles.metricText}>{metric}</Text>
+                                </View>
+
+                                {dates.map((date) => (
+                                    <View key={date} style={styles.dataCell}>
+                                        <Text style={styles.dataText}>
+                                            {formatValue(data[date][metric])}
+                                        </Text>
+
+                                    </View>
+                                ))}
+                            </View>
+                        ))}
+                    </ScrollView>
                 </View>
-            ))}
+            </ScrollView>
         </View>
 
     );
@@ -54,11 +126,7 @@ const formatCurrency = (value: number, unit: string) =>
 const styles = StyleSheet.create({
     row: {
         flexDirection: "row",
-        justifyContent: "space-between",
-        marginTop: 16,
-        alignItems: "center",
-        borderBottomWidth: 1,           // bottom border
-        borderBottomColor: "rgba(255,255,255,0.05)", // light/transparent white
+
     },
     label: {
         fontSize: 16,
@@ -73,5 +141,39 @@ const styles = StyleSheet.create({
         color: "#eae7e7",
         width: "35%",
         textAlign: "right",
+    },
+    metricCell: {
+        width: 170,
+        padding: 7,
+        backgroundColor: Colors.grey,
+        borderRightWidth: 1,
+        borderColor: "#505050",
+        borderBottomWidth: 1,
+    },
+    headerCell: {
+        width: 140,
+        padding: 8,
+        backgroundColor: Colors.grey,
+        alignItems: "center",
+    },
+    headerText: {
+        fontWeight: "bold",
+        color: "#ffffff"
+    },
+    metricText: {
+        fontWeight: "600",
+        color: "#ffffff"
+    },
+    dataCell: {
+        width: 140,
+        padding: 8,
+        alignItems: "center",
+        borderRightWidth: 1,
+        borderColor: "#505050",
+        borderBottomWidth: 1,
+    },
+    dataText: {
+        fontSize: 14,
+        color: "#ffffff"
     },
 });
