@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {Link, router, Stack} from 'expo-router';
 import Colors from "@/Colors";
 import SearchBar from "@/components/SearchBar";
-import {useState} from "react";
+import {useRef, useState} from "react";
 import axios from "axios";
 import Analysis from "@/components/Analysis";
 import AnimatedButtonBar from "@/components/AnimatedButtonBar";
@@ -14,6 +14,7 @@ import BalanceSheet from "@/components/BalanceSheet";
 import IncomeStatement from "@/components/IncomeStatement";
 import CashFlowStatement from "@/components/CashFlowStatement";
 import BalanceSheets from "@/components/BalanceSheets";
+import {useTabBar} from "@/components/TabBarVisibilityContext";
 
 type dataType = {
     symbol: string;
@@ -73,7 +74,8 @@ export default function StockProfile() {
         }
     };
 
-
+    const lastY = useRef(0);
+    const { hideTabBar, showTabBar } = useTabBar();
 
     return (
     <>
@@ -83,6 +85,15 @@ export default function StockProfile() {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.scrollContent}
+                onScroll={(e) => {
+                    const y = e.nativeEvent.contentOffset.y;
+
+                    if (y > lastY.current + 10) hideTabBar();
+                    else if (y < lastY.current - 10) showTabBar();
+
+                    lastY.current = y;
+                }}
+                scrollEventThrottle={500}
             >
                 <Text className="mt-safe-or-12 mx-auto text-white text-3xl font-bold">
                     Stock Profile

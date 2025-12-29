@@ -17,7 +17,7 @@ type Props = {
     balanceSheet: Record<string, { label: string; value: number; unit: string }>;
 };
 
-export default function IncomeStatement({ symbol }: CashFlowStatementProps) {
+export default function CashFlowStatement({ symbol }: CashFlowStatementProps) {
     const [data, setData] = useState<CashFlowStatementResponse>({});
     const [loading, setLoading] = useState(true);
 
