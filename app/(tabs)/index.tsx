@@ -7,9 +7,11 @@ import Colors from "@/Colors";
 import {SafeAreaView} from "react-native-safe-area-context";
 import SearchBar from "@/components/SearchBar";
 import DatePicker from '@react-native-community/datetimepicker';
-import {useState} from "react";
+import {useRef, useState} from "react";
 import axios from "axios";
 import News from "@/components/News";
+import Chart from "@/components/Chart";
+import {useTabBar} from "@/components/TabBarVisibilityContext";
 
 type dataType = {
     symbol: string;
@@ -22,6 +24,10 @@ type dataType = {
     fiveYrDate: string;
     fiveYrPercentage: number;
     fiveYrDiff: number;
+    oneMonthDate: string;
+    oneMonthPercentage: number;
+    oneMonthDiff: number;
+    oneMonthPrice: number;
 };
 
 
@@ -60,6 +66,9 @@ export default function HomeScreen() {
         }
     };
 
+    const lastY = useRef(0);
+    const { hideTabBar, showTabBar } = useTabBar();
+
 
     return (
       <>
@@ -67,7 +76,16 @@ export default function HomeScreen() {
           <SafeAreaView style={[styles.container]} edges={['top']}>
               <View style={[styles.container]}>
 
-                  <ScrollView contentContainerStyle={styles.scrollContent} showsHorizontalScrollIndicator={false}>
+                  <ScrollView contentContainerStyle={styles.scrollContent} showsHorizontalScrollIndicator={false}
+                              onScroll={(e) => {
+                                  const y = e.nativeEvent.contentOffset.y;
+
+                                  if (y > lastY.current + 10) hideTabBar();
+                                  else if (y < lastY.current - 10) showTabBar();
+
+                                  lastY.current = y;
+                              }}
+                              scrollEventThrottle={200}>
                       <Text className=" mt-safe-or-12  mx-auto text-white text-3xl font-bold">Stock Price</Text>
 
                       <View className="mt-5">
@@ -142,6 +160,15 @@ export default function HomeScreen() {
                                   <Text style={[styles.percentage, getPercentageStyle(stockPrices.fiveYrDiff)]}>{stockPrices.fiveYrDiff.toFixed(2)}</Text>
                                   <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>{stockPrices.fiveYrPercentage.toFixed(2)}%</Text>
                                   <Text style={[styles.percentage2, getPercentageStyle(stockPrices.fiveYrPercentage)]}>change since {stockPrices.fiveYrDate}</Text>
+                              </View>
+                              <View style={[styles.title_percentage,styles.percentage3]}>
+                                  <Text style={[styles.percentage, getPercentageStyle(stockPrices.oneMonthDiff)]}>{stockPrices.oneMonthDiff.toFixed(2)}</Text>
+                                  <Text style={[styles.percentage2, getPercentageStyle(stockPrices.oneMonthPercentage)]}>{stockPrices.oneMonthPercentage.toFixed(2)}%</Text>
+                                  <Text style={[styles.percentage2, getPercentageStyle(stockPrices.oneMonthPercentage)]}>change since a month ago</Text>
+                              </View>
+                              <View className="mt-5">
+                                  <Text className="text-white text-2xl mt-4 font-medium"> Chart </Text>
+                                  <Chart symbol={stockPrices.symbol}/>
                               </View>
                               <View className="mt-5">
                                   <Text className="text-white text-2xl mt-4 font-medium"> News </Text>
