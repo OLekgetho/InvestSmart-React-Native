@@ -35,7 +35,7 @@ jobs:
           EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: app-main.apk
           path: $(eas build:inspect --latest | grep 'apk' | cut -d ' ' -f2)
