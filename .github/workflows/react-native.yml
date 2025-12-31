@@ -24,11 +24,6 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
-      - name: Configure EAS credentials
-        run: echo ${{ secrets.EAS_TOKEN }} | eas login --token
-        env:
-          EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
-
       - name: Build Main APK
         run: eas build --platform android --profile main --non-interactive
         env:
@@ -39,3 +34,5 @@ jobs:
         with:
           name: app-main.apk
           path: $(eas build:inspect --latest | grep 'apk' | cut -d ' ' -f2)
+        env:
+          EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
