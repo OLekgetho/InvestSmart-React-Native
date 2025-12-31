@@ -24,8 +24,15 @@ jobs:
       - name: Install EAS CLI
         run: npm install -g eas-cli
 
+      - name: 🏗 Setup EAS
+        run: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EAS_TOKEN }}
+
+
       - name: Build Main APK
-        run: eas build --platform android --profile main --non-interactive
+        run: eas build --platform android
         env:
           EAS_TOKEN: ${{ secrets.EAS_TOKEN }}
 
