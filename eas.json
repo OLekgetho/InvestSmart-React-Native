@@ -4,16 +4,28 @@
     "appVersionSource": "remote"
   },
   "build": {
-    "main": {
-      "distribution": "internal",
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "investsmart": {
       "android": {
         "buildType": "apk"
       }
     },
+    "preview3": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
     "production": {
-
+      "autoIncrement": true
     }
   },
   "submit": {
+    "production": {}
   }
 }

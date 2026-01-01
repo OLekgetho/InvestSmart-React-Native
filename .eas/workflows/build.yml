@@ -1,13 +1,14 @@
-name: Build
+name: Build APK
 
 on:
   push:
     branches:
-      - main
+      - Prod
 
 jobs:
   build_android:
-    name: Build Android App
+    name: Build Android APK
     type: build
     params:
       platform: android
+      profile: investsmart

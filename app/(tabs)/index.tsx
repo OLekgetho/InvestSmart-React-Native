@@ -12,6 +12,7 @@ import axios from "axios";
 import News from "@/components/News";
 import Chart from "@/components/Chart";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
+import Analyst from "@/components/Analyst";
 
 type dataType = {
     symbol: string;
@@ -171,9 +172,14 @@ export default function HomeScreen() {
                                   <Chart symbol={stockPrices.symbol}/>
                               </View>
                               <View className="mt-5">
+                                  <Text className="text-white text-2xl mt-4 font-medium"> Analyst Target Price </Text>
+                                  <Analyst symbol={stockPrices.symbol} />
+                              </View>
+                              <View className="mt-5">
                                   <Text className="text-white text-2xl mt-4 font-medium"> News </Text>
                                   <News symbol={stockPrices.symbol} />
                               </View>
+
                           </View>
                           )}
                       </View>
