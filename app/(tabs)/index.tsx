@@ -105,7 +105,7 @@ export default function HomeScreen() {
 
                               <View className="ml-4">
                                   <Pressable onPress={() => setShow(true)}>
-                                      <MaterialCommunityIcons name="robot-confused-outline" size={24} color="white" />
+                                      <MaterialCommunityIcons name="robot-confused-outline" size={24} color="grey" />
                                   </Pressable>
 
                                   {show && (
