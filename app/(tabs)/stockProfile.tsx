@@ -90,8 +90,8 @@ export default function StockProfile() {
                 onScroll={(e) => {
                     const y = e.nativeEvent.contentOffset.y;
 
-                    if (y > lastY.current + 10) hideTabBar();
-                    else if (y < lastY.current - 10) showTabBar();
+                    if (y > lastY.current + 6) hideTabBar();
+                    else if (y < lastY.current - 6) showTabBar();
 
                     lastY.current = y;
                 }}
