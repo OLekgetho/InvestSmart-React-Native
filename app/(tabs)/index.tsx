@@ -13,6 +13,7 @@ import News from "@/components/News";
 import Chart from "@/components/Chart";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
 import Analyst from "@/components/Analyst";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 type dataType = {
     symbol: string;
@@ -104,7 +105,7 @@ export default function HomeScreen() {
 
                               <View className="ml-4">
                                   <Pressable onPress={() => setShow(true)}>
-                                      <AntDesign name="calendar" size={24} color="white" />
+                                      <MaterialCommunityIcons name="robot-confused-outline" size={24} color="white" />
                                   </Pressable>
 
                                   {show && (
