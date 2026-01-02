@@ -9,6 +9,7 @@ import SearchBar from "@/components/SearchBar";
 import {useRef, useState} from "react";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
 import axios from "axios";
+import {symbol} from "d3-shape";
 
 type dataType = {
     marketCap: string,
@@ -19,6 +20,12 @@ type dataType = {
     fourYearAveragePE: string,
     pricetosaleratio: string,
     profitMarginTTM: string,
+    fouryearProfitMargin: string,
+    grossProfitMargin: string,
+    freeCashFlowTTM: string,
+    fouryearFreeCashFlow: string,
+    pEFreeCashFlow: string,
+    fouryearPEFreeCashFlow: string
 }
 
 export default function StockMetrics() {
@@ -227,6 +234,123 @@ export default function StockMetrics() {
                                     </View>
                                     <View style={styles.kpidescrip}>
                                         <Text style={styles.kpidescription}>Profit Margin TTM (Trailing Twelve Months) is a financial metric measuring a company's net income as a percentage of revenue over the past 12 consecutive months.
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                4 Year Profit Margin Average
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.fouryearProfitMargin}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                Gross Profit Margin
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.grossProfitMargin}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                            Gross Profit Margin is a percentage showing how much revenue remains after subtracting the direct costs (Cost of Goods Sold - COGS) of producing and selling a product or service, indicating operational efficiency and pricing power.
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                Free Cash Flow TTM
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.freeCashFlowTTM}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                            Free Cash Flow (FCF) - Formula, Calculation, & UsesFree Cash Flow (FCF) TTM (Trailing Twelve Months) is the cash a company generates over the past year after accounting for cash outflows to support operations and maintain capital assets (CapEx).
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                4-Year Free Cash Flow Average
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.fouryearFreeCashFlow}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                               P/E Free Cash Flow
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.pEFreeCashFlow}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                            Price to Free Cash Flow (P/FCF) is an equity valuation metric that compares a company's market price per share to its free cash flow (FCF) per share, indicating how much investors pay for $1 of actual cash generated.
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                4-Year P/E Free Cash Flow
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.fouryearPEFreeCashFlow}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
                                         </Text>
                                     </View>
                                 </View>
