@@ -15,6 +15,8 @@ import IncomeStatement from "@/components/IncomeStatement";
 import CashFlowStatement from "@/components/CashFlowStatement";
 import BalanceSheets from "@/components/BalanceSheets";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import DatePicker from "@react-native-community/datetimepicker";
 
 type dataType = {
     symbol: string;
@@ -100,10 +102,21 @@ export default function StockProfile() {
                 </Text>
 
                 <View className="mt-5">
-                    <SearchBar
-                        placeholder="Search a Stock"
-                        onSubmit={fetchStockProfile}
-                    />
+                    <View style={styles.top_title}>
+                        <View style={styles.searchContainer}>
+                            <SearchBar
+                                placeholder="Search a Stock"
+                                onSubmit={fetchStockProfile}
+                            />
+                        </View>
+
+                        <View className="ml-4">
+                            <Pressable onPress={() => {}}>
+                                <MaterialCommunityIcons name="robot-confused-outline" size={24} color="grey" />
+                            </Pressable>
+
+                        </View>
+                    </View>
                     {stockData && (
                     <View>
 
@@ -169,5 +182,12 @@ const styles = StyleSheet.create({
 
     section: {
         marginTop: 20,
+    },
+    top_title: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    searchContainer: {
+        width: "86%",
     },
 });
