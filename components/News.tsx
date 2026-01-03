@@ -36,7 +36,7 @@ export default function News({ symbol }: NewsProps) {
     useEffect(() => {
         if (!symbol) return; // skip if no symbol
         setLoading(true);
-        fetch(`http://10.145.2.220:8085/api/stock/info/news/${symbol}`)
+        fetch(`http://192.168.1.105:8085/api/stock/info/news/${symbol}`)
             .then(res => res.json())
             .then(data => {
                 setNews(data);

@@ -89,7 +89,7 @@ export default function Chart({ symbol }: ChartProp) {
     const webviewRef = React.useRef<WebView>(null);
 
     useEffect(() => {
-        fetch(`http://10.145.2.220:8085/api/stock/info/chart/${symbol}/7y`)
+        fetch(`http://192.168.1.105:8085/api/stock/info/chart/${symbol}/7y`)
             .then(res => res.json())
             .then(json => {
                 const formatted = json.data.map((d: any) => ({
