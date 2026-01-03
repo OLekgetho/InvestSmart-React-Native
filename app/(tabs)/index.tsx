@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import {Platform, StyleSheet, View, Text, ScrollView, Pressable} from 'react-native';
+import {Platform, StyleSheet, View, Text, ScrollView, Pressable, Alert, Modal} from 'react-native';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import {Link, Stack} from 'expo-router';
@@ -14,6 +14,7 @@ import Chart from "@/components/Chart";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
 import Analyst from "@/components/Analyst";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import IndexAISummary from "@/components/IndexAISummary";
 
 type dataType = {
     symbol: string;
@@ -41,9 +42,9 @@ export default function HomeScreen() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    // const BASE_URL = "http://192.168.1.105:8085/api";
+    const BASE_URL = "http://192.168.1.105:8085/api";
     // const BASE_URL = "http://10.90.255.220:8085/api";
-    const BASE_URL = "http://10.145.2.220:8085/api";
+    // const BASE_URL = "http://10.145.2.220:8085/api";
 
     const formatDate = (date: Date) =>
         date.toISOString().split("T")[0];
@@ -70,7 +71,7 @@ export default function HomeScreen() {
 
     const lastY = useRef(0);
     const { hideTabBar, showTabBar } = useTabBar();
-
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
       <>
@@ -104,21 +105,22 @@ export default function HomeScreen() {
                               </View>
 
                               <View className="ml-4">
-                                  <Pressable onPress={() => setShow(true)}>
-                                      <MaterialCommunityIcons name="robot-confused-outline" size={24} color="grey" />
+
+                                  <Modal
+                                      animationType="slide"
+                                      transparent={true}
+                                      visible={modalVisible}
+                                      onRequestClose={() => {
+                                          Alert.alert('Modal has been closed.');
+                                          setModalVisible(!modalVisible);
+                                      }}>
+                                      <IndexAISummary onClose={() => setModalVisible(false)} />
+                                  </Modal>
+
+                                  <Pressable onPress={() => setModalVisible(true)}>
+                                      <MaterialCommunityIcons name="robot-confused-outline" size={24} color={modalVisible ? "gray" : "white"}/>
                                   </Pressable>
 
-                                  {show && (
-                                      <DatePicker
-                                          value={myDate}
-                                          mode="date"
-                                          display={Platform.OS === "ios" ? "spinner" : "default"}
-                                          onChange={(event, selectedDate) => {
-                                              setShow(false);
-                                              if (selectedDate) setMyDate(selectedDate);
-                                          }}
-                                      />
-                                  )}
                               </View>
                           </View>
                           {stockPrices && (

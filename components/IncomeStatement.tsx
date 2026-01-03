@@ -38,7 +38,7 @@ export default function IncomeStatement({ symbol }: IncomeStatementProps) {
 
     useEffect(() => {
         fetch(
-            `http://10.145.2.220:8085/api/stock/info/profile/income/${symbol}`
+            `http://192.168.1.105:8085/api/stock/info/profile/income/${symbol}`
         )
             .then((res) => res.json())
             .then((json) => setData(json))
