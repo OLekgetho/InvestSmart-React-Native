@@ -17,7 +17,6 @@ type dataType = {
     netIncome: string,
     fouryearNetIncomeAvg: string,
     trailingpe: string,
-    fourYearAveragePE: string,
     pricetosaleratio: string,
     profitMarginTTM: string,
     fouryearProfitMargin: string,
@@ -25,7 +24,13 @@ type dataType = {
     freeCashFlowTTM: string,
     fouryearFreeCashFlow: string,
     pEFreeCashFlow: string,
-    fouryearPEFreeCashFlow: string
+    enterpriseValue: string,
+    fcf_to_net_income: string,
+    netDebt: string,
+    revenue_cagr: string,
+    net_income_cagr: string,
+    fcf_cagr: string,
+
 }
 
 export default function StockMetrics() {
@@ -185,25 +190,6 @@ export default function StockMetrics() {
                                     <View style={styles.kpicontainers}>
                                         <View style={styles.kpi}>
                                             <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
-                                                4 Years Trailing PE Average
-                                            </Text>
-                                        </View>
-                                        <View style={styles.kpinum}>
-                                            <Text style={styles.kpinums}>
-                                                {stockPrices.fourYearAveragePE}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.kpidescrip}>
-                                        <Text style={styles.kpidescription}>
-                                        </Text>
-                                    </View>
-                                </View>
-
-                                <View style={styles.kpicontainer}>
-                                    <View style={styles.kpicontainers}>
-                                        <View style={styles.kpi}>
-                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
                                                 Price-to-Sale Ratio
                                             </Text>
                                         </View>
@@ -340,12 +326,12 @@ export default function StockMetrics() {
                                     <View style={styles.kpicontainers}>
                                         <View style={styles.kpi}>
                                             <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
-                                                4-Year P/E Free Cash Flow
+                                                Enterprise Value
                                             </Text>
                                         </View>
                                         <View style={styles.kpinum}>
                                             <Text style={styles.kpinums}>
-                                                {stockPrices.fouryearPEFreeCashFlow}
+                                                {stockPrices.enterpriseValue}
                                             </Text>
                                         </View>
                                     </View>
@@ -354,6 +340,102 @@ export default function StockMetrics() {
                                         </Text>
                                     </View>
                                 </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                Free Cash Flow to Net Income
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.fcf_to_net_income}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                Net Debt
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.netDebt}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                Revenue Compound Annual Growth Rate
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.revenue_cagr}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                Net Income Compound Annual Growth Rate
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.net_income_cagr}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                        </Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.kpicontainer}>
+                                    <View style={styles.kpicontainers}>
+                                        <View style={styles.kpi}>
+                                            <Text style={styles.kpiname} numberOfLines={0} ellipsizeMode="tail">
+                                                Free Cash Flow Compound Annual Growth Rate
+                                            </Text>
+                                        </View>
+                                        <View style={styles.kpinum}>
+                                            <Text style={styles.kpinums}>
+                                                {stockPrices.fcf_cagr}
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.kpidescrip}>
+                                        <Text style={styles.kpidescription}>
+                                        </Text>
+                                    </View>
+                                </View>
+
                             </View>
                             )}
                         </View>
