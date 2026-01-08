@@ -30,6 +30,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import DatePicker from "@react-native-community/datetimepicker";
 import IndexAISummary from "@/components/IndexAISummary";
 import FinancialsAISummary from "@/components/FinancialsAISummary";
+import {symbol} from "d3-shape";
 
 type dataType = {
     symbol: string;
@@ -133,7 +134,12 @@ export default function StockProfile() {
                                     Alert.alert('Modal has been closed.');
                                     setModalVisible(!modalVisible);
                                 }}>
-                                <FinancialsAISummary onClose={() => setModalVisible(false)} />
+                                {stockData && (
+                                    <FinancialsAISummary
+                                        onClose={() => setModalVisible(false)}
+                                        symbol={stockData.symbol}
+                                    />
+                                )}
                             </Modal>
 
                             <Pressable onPress={() => setModalVisible(true)}>
