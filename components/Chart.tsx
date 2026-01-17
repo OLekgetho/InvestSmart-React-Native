@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
+import Baseapi from "@/api/Baseapi";
 
 const html = `
 <!DOCTYPE html>
@@ -89,7 +90,7 @@ export default function Chart({ symbol }: ChartProp) {
     const webviewRef = React.useRef<WebView>(null);
 
     useEffect(() => {
-        fetch(`http://192.168.1.105:8085/api/stock/info/chart/${symbol}/7y`)
+        fetch(`${Baseapi.API_BASE_URL}/stock/info/chart/${symbol}/7y`)
             .then(res => res.json())
             .then(json => {
                 const formatted = json.data.map((d: any) => ({

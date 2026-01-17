@@ -14,7 +14,9 @@ import Chart from "@/components/Chart";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
 import Analyst from "@/components/Analyst";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import IndexAISummary from "@/components/IndexAISummary";
+import Baseapi from "@/api/Baseapi";
 
 type dataType = {
     symbol: string;
@@ -57,7 +59,7 @@ export default function HomeScreen() {
         try {
             const formattedDate = date.toISOString().split("T")[0];
 
-            const res = await axios.get<dataType>(`${BASE_URL}/stock/info/${symbol}`
+            const res = await axios.get<dataType>(`${Baseapi.API_BASE_URL}/stock/info/${symbol}`
             );
 
             setStockPrice(res.data);
@@ -118,7 +120,7 @@ export default function HomeScreen() {
                                   </Modal>
 
                                   <Pressable onPress={() => setModalVisible(true)}>
-                                      <MaterialCommunityIcons name="robot-confused-outline" size={24} color={modalVisible ? "gray" : "white"}/>
+                                      <FontAwesome6 name="magnifying-glass-chart" size={24} color={modalVisible ? "gray" : "white"} />
                                   </Pressable>
 
                               </View>

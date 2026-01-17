@@ -3,6 +3,7 @@ import {View, Text, Pressable, StyleSheet, ScrollView, ActivityIndicator} from '
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import axios from "axios";
+import Baseapi from "@/api/Baseapi";
 
 type Props = {
     onClose: () => void;
@@ -34,7 +35,7 @@ export default function FinancialsAISummary({ onClose,symbol }: Props) {
             setError(null);
 
             try {
-                const res = await axios.get<AIResponse>(`${BASE_URL}/stock/info/ai/financial/${symbol}`);
+                const res = await axios.get<AIResponse>(`${Baseapi.API_BASE_URL}/stock/info/ai/financial/${symbol}`);
                 setAiSummary(res.data);
             } catch (err) {
                 console.error(err);
