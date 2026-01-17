@@ -9,6 +9,7 @@ import {
     Linking,
     ActivityIndicator,
 } from 'react-native';
+import Baseapi from "@/api/Baseapi";
 
 type NewsItem = {
     id: string;
@@ -36,7 +37,7 @@ export default function News({ symbol }: NewsProps) {
     useEffect(() => {
         if (!symbol) return; // skip if no symbol
         setLoading(true);
-        fetch(`http://192.168.1.105:8085/api/stock/info/news/${symbol}`)
+        fetch(`${Baseapi.API_BASE_URL}/stock/info/news/${symbol}`)
             .then(res => res.json())
             .then(data => {
                 setNews(data);

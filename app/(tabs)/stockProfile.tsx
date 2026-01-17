@@ -31,6 +31,7 @@ import DatePicker from "@react-native-community/datetimepicker";
 import IndexAISummary from "@/components/IndexAISummary";
 import FinancialsAISummary from "@/components/FinancialsAISummary";
 import {symbol} from "d3-shape";
+import Baseapi from "@/api/Baseapi";
 
 type dataType = {
     symbol: string;
@@ -76,8 +77,8 @@ export default function StockProfile() {
 
         try {
             const [profileRes, financeRes] = await Promise.all([
-                axios.get<dataType>(`${BASE_URL}/stock/info/profile/${symbol}`),
-                axios.get(`${BASE_URL}/profile/finance/${symbol}`)
+                axios.get<dataType>(`${Baseapi.API_BASE_URL}/stock/info/profile/${symbol}`),
+                axios.get(`${Baseapi.API_BASE_URL}/profile/finance/${symbol}`)
             ]);
 
             setStockData(profileRes.data);

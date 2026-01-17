@@ -10,6 +10,7 @@ import {useRef, useState} from "react";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
 import axios from "axios";
 import {symbol} from "d3-shape";
+import Baseapi from "@/api/Baseapi";
 
 type dataType = {
     marketCap: string,
@@ -48,7 +49,7 @@ export default function StockMetrics() {
         setError(null);
 
         try {
-            const res = await axios.get<dataType>(`${BASE_URL}/stock/info/personalKPI/${symbol}`
+            const res = await axios.get<dataType>(`${Baseapi.API_BASE_URL}/stock/info/personalKPI/${symbol}`
             );
 
             setStockPrice(res.data);

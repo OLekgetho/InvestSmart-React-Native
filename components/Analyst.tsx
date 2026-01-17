@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import Baseapi from "@/api/Baseapi";
 
 type AnalystData = {
     current: number;
@@ -23,7 +24,7 @@ export default function Analyst({symbol}: AnalystProps) {
         fetchedSymbol.current = symbol;
         setLoading(true);
 
-        fetch(`http://192.168.1.105:8085/api/stock/info/analyst/${symbol}`)
+        fetch(`${Baseapi.API_BASE_URL}/stock/info/analyst/${symbol}`)
             .then(res => res.json())
             .then(json => {
                 setData({
