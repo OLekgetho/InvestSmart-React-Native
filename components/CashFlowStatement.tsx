@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {View, Text, FlatList, ActivityIndicator, StyleSheet, ScrollView} from "react-native";
 import axios from "axios";
 import Colors from "@/Colors";
+import Baseapi from "@/api/Baseapi";
 
 interface CashFlowStatementProps {
     symbol: string; // passed from parent.tsx
@@ -38,7 +39,7 @@ export default function CashFlowStatement({ symbol }: CashFlowStatementProps) {
 
     useEffect(() => {
         fetch(
-            `http://10.145.2.220:8085/api/stock/info/profile/cash/${symbol}`
+            `${Baseapi.API_BASE_URL}/stock/info/profile/cash/${symbol}`
         )
             .then((res) => res.json())
             .then((json) => setData(json))

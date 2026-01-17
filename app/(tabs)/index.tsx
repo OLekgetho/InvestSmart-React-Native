@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import {Platform, StyleSheet, View, Text, ScrollView, Pressable} from 'react-native';
+import {Platform, StyleSheet, View, Text, ScrollView, Pressable, Alert, Modal} from 'react-native';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import {Link, Stack} from 'expo-router';
@@ -12,6 +12,11 @@ import axios from "axios";
 import News from "@/components/News";
 import Chart from "@/components/Chart";
 import {useTabBar} from "@/components/TabBarVisibilityContext";
+import Analyst from "@/components/Analyst";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import IndexAISummary from "@/components/IndexAISummary";
+import Baseapi from "@/api/Baseapi";
 
 type dataType = {
     symbol: string;
@@ -39,9 +44,9 @@ export default function HomeScreen() {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    // const BASE_URL = "http://192.168.1.105:8085/api";
+    const BASE_URL = "http://192.168.1.105:8085/api";
     // const BASE_URL = "http://10.90.255.220:8085/api";
-    const BASE_URL = "http://10.145.2.220:8085/api";
+    // const BASE_URL = "http://10.145.2.220:8085/api";
 
     const formatDate = (date: Date) =>
         date.toISOString().split("T")[0];
@@ -54,7 +59,7 @@ export default function HomeScreen() {
         try {
             const formattedDate = date.toISOString().split("T")[0];
 
-            const res = await axios.get<dataType>(`${BASE_URL}/stock/info/${symbol}`
+            const res = await axios.get<dataType>(`${Baseapi.API_BASE_URL}/stock/info/${symbol}`
             );
 
             setStockPrice(res.data);
@@ -68,7 +73,7 @@ export default function HomeScreen() {
 
     const lastY = useRef(0);
     const { hideTabBar, showTabBar } = useTabBar();
-
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
       <>
@@ -80,8 +85,8 @@ export default function HomeScreen() {
                               onScroll={(e) => {
                                   const y = e.nativeEvent.contentOffset.y;
 
-                                  if (y > lastY.current + 10) hideTabBar();
-                                  else if (y < lastY.current - 10) showTabBar();
+                                  if (y > lastY.current + 6) hideTabBar();
+                                  else if (y < lastY.current - 6) showTabBar();
 
                                   lastY.current = y;
                               }}
@@ -102,21 +107,22 @@ export default function HomeScreen() {
                               </View>
 
                               <View className="ml-4">
-                                  <Pressable onPress={() => setShow(true)}>
-                                      <AntDesign name="calendar" size={24} color="white" />
+
+                                  <Modal
+                                      animationType="slide"
+                                      transparent={true}
+                                      visible={modalVisible}
+                                      onRequestClose={() => {
+                                          Alert.alert('Modal has been closed.');
+                                          setModalVisible(!modalVisible);
+                                      }}>
+                                      <IndexAISummary onClose={() => setModalVisible(false)} />
+                                  </Modal>
+
+                                  <Pressable onPress={() => setModalVisible(true)}>
+                                      <FontAwesome6 name="magnifying-glass-chart" size={24} color={modalVisible ? "gray" : "white"} />
                                   </Pressable>
 
-                                  {show && (
-                                      <DatePicker
-                                          value={myDate}
-                                          mode="date"
-                                          display={Platform.OS === "ios" ? "spinner" : "default"}
-                                          onChange={(event, selectedDate) => {
-                                              setShow(false);
-                                              if (selectedDate) setMyDate(selectedDate);
-                                          }}
-                                      />
-                                  )}
                               </View>
                           </View>
                           {stockPrices && (
@@ -171,9 +177,14 @@ export default function HomeScreen() {
                                   <Chart symbol={stockPrices.symbol}/>
                               </View>
                               <View className="mt-5">
+                                  <Text className="text-white text-2xl mt-4 font-medium"> Analyst Target Price </Text>
+                                  <Analyst symbol={stockPrices.symbol} />
+                              </View>
+                              <View className="mt-5">
                                   <Text className="text-white text-2xl mt-4 font-medium"> News </Text>
                                   <News symbol={stockPrices.symbol} />
                               </View>
+
                           </View>
                           )}
                       </View>

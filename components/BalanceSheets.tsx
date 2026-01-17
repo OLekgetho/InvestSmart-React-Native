@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {View, Text, FlatList, ActivityIndicator, StyleSheet, ScrollView} from "react-native";
 import axios from "axios";
 import Colors from "@/Colors";
+import Baseapi from "@/api/Baseapi";
 
 type ResultsFinance = {
     label: string;
@@ -51,7 +52,7 @@ export default function BalanceSheet({ symbol }: BalanceSheetProps) {
 
     useEffect(() => {
         fetch(
-            `http://10.145.2.220:8085/api/stock/info/profile/balance/${symbol}`
+            `${Baseapi.API_BASE_URL}/stock/info/profile/balance/${symbol}`
         )
             .then((res) => res.json())
             .then((json) => setData(json))

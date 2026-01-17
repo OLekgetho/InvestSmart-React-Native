@@ -43,8 +43,8 @@ export default function TabLayout() {
                         options={{ title: "Profile", headerTitle: "Stock Profile" }}
                     />
                     <Tabs.Screen
-                        name="stockWatchList"
-                        options={{ title: "Monitoring", headerTitle: "Watch List" }}
+                        name="stockMetrics"
+                        options={{ title: "Metrics", headerTitle: "Stock Metrics" }}
                     />
                 </Tabs>
             </TabBarProvider>
