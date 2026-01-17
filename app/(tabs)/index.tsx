@@ -106,24 +106,24 @@ export default function HomeScreen() {
 
                               </View>
 
-                              <View className="ml-4">
+                              {/*<View className="ml-4">*/}
 
-                                  <Modal
-                                      animationType="slide"
-                                      transparent={true}
-                                      visible={modalVisible}
-                                      onRequestClose={() => {
-                                          Alert.alert('Modal has been closed.');
-                                          setModalVisible(!modalVisible);
-                                      }}>
-                                      <IndexAISummary onClose={() => setModalVisible(false)} />
-                                  </Modal>
+                              {/*    <Modal*/}
+                              {/*        animationType="slide"*/}
+                              {/*        transparent={true}*/}
+                              {/*        visible={modalVisible}*/}
+                              {/*        onRequestClose={() => {*/}
+                              {/*            Alert.alert('Modal has been closed.');*/}
+                              {/*            setModalVisible(!modalVisible);*/}
+                              {/*        }}>*/}
+                              {/*        <IndexAISummary onClose={() => setModalVisible(false)} />*/}
+                              {/*    </Modal>*/}
 
-                                  <Pressable onPress={() => setModalVisible(true)}>
-                                      <FontAwesome6 name="magnifying-glass-chart" size={24} color={modalVisible ? "gray" : "white"} />
-                                  </Pressable>
+                              {/*    <Pressable onPress={() => setModalVisible(true)}>*/}
+                              {/*        <FontAwesome6 name="magnifying-glass-chart" size={24} color={modalVisible ? "gray" : "white"} />*/}
+                              {/*    </Pressable>*/}
 
-                              </View>
+                              {/*</View>*/}
                           </View>
                           {stockPrices && (
                           <View>
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
        marginTop: 7,
     },
     searchContainer: {
-        width: "86%",
+        width: "100%",
     },
 
 })
