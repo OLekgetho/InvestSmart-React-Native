@@ -29,7 +29,7 @@ const Analysis = ({ stockData }: AnalysisProps) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const BASE_URL = "http://192.168.1.105:8085/api";
+
 
     return (
         <View style={styles.container}>
