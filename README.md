@@ -5,6 +5,13 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-Latest-blue)](https://www.typescriptlang.org/)
 [![NativeWind](https://img.shields.io/badge/Styling-NativeWind-38BDF8)](https://www.nativewind.dev)
 
+## 🎥 App Demo
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/OLekgetho/InvestSmart-React-Native/Prod/InvestSmart%20Demo.gif" width="250" style="margin: 0 10px; border-radius: 15px;" />
+  <img src="https://raw.githubusercontent.com/OLekgetho/InvestSmart-React-Native/Prod/InvestSmart%20Demo%20part%202.gif" width="250" style="margin: 0 10px; border-radius: 15px;" />
+</p>
+
 ## Overview
 
 InvestSmart is a cross-platform mobile investment app built with React Native and Expo. It provides users with financial market information, portfolio overview, and investment insights using the InvestSmart backend services.
